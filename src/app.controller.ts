@@ -18,24 +18,4 @@ export class AppController {
   hello(): string {
     return 'con /sas/';
   }
-  @Get('products')
-  getProducts(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ): string {
-    return `products: limit=> ${limit} offset => ${offset} brand=> ${brand}`;
-  }
-  @Get('/products/:productId')
-  getProduct(@Param() params: any): string {
-    console.log(params);
-    return `product ${params.productId} `;
-  }
-  @Get('/categories/:id/products/:productId')
-  getCategory(
-    @Param('productId') productId: string,
-    @Param('id') id: string,
-  ): string {
-    return `product ${productId} and ${id} `;
-  }
 }
