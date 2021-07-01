@@ -16,9 +16,10 @@ import {
 import { Response } from 'express';
 import { ParseIntPipe } from '../../common/parse-int.pipe';
 import { ProductsService } from './../../services/products.service';
+import { CreateProductDto, UpdateProductDto } from './../../dtos/products.dtos';
 @Controller('products')
 export class ProductsController {
-  constructor(private productsServices: ProductsService) { }
+  constructor(private productsServices: ProductsService) {}
 
   @Get()
   getProducts(
@@ -37,11 +38,11 @@ export class ProductsController {
     return this.productsServices.findOne(+productId);
   }
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: CreateProductDto) {
     return this.productsServices.create(payload);
   }
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: any) {
+  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
     console.log('id', id);
     return this.productsServices.update(+id, payload);
   }
