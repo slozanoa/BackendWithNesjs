@@ -1,7 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Category } from '../products/entities/category.entity';
-import { CreateCategoryDto, UpdateCategoryDto } from '../products/dtos/categories.dtos';
+import { Category } from '../entities/category.entity';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+} from '../dtos/categories.dtos';
 
 @Injectable()
 export class CategoriesService {
