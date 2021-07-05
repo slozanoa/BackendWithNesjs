@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
@@ -8,7 +9,8 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 import { ProductsService } from './../../products/services/products.service';
 @Injectable()
 export class UsersService {
-  constructor(private productsService: ProductsService, @Inject('API_KEY') private tasks: any[],){}
+  constructor(private productsService: ProductsService,
+    private configService: ConfigService) { }
   private counterId = 1;
   private users: User[] = [
     {
@@ -20,6 +22,9 @@ export class UsersService {
   ];
 
   findAll() {
+    const apiKey = this.configService.get('API_KEY');
+    const db = this.configService.get('DATABASE_NAME');
+    console.log(apiKey, db);
     return this.users;
   }
 
