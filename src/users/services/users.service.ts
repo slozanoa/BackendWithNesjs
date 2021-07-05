@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 
 import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
@@ -8,7 +8,7 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 import { ProductsService } from './../../products/services/products.service';
 @Injectable()
 export class UsersService {
-  constructor(private productsService: ProductsService){}
+  constructor(private productsService: ProductsService, @Inject('API_KEY') private tasks: any[],){}
   private counterId = 1;
   private users: User[] = [
     {
