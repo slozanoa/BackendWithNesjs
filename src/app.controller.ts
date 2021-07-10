@@ -11,11 +11,12 @@ export class AppController {
   }
 
   @Get('nuevo')
-  newEndpoint(): string {
-    return 'nuevo santiago lozano';
+  newEndpoint() {
+    return 'yo soy nuevo';
   }
+
   @Get('/ruta/')
-  hello(): string {
+  hello() {
     return 'con /sas/';
   }
 }

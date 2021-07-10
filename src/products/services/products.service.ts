@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Product } from '../entities/product.entity';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+import { Product } from './../entities/product.entity';
+import { CreateProductDto, UpdateProductDto } from './../dtos/products.dtos';
+
 @Injectable()
 export class ProductsService {
   private counterId = 1;
@@ -10,16 +10,17 @@ export class ProductsService {
     {
       id: 1,
       name: 'Producto 1',
-      description: 'bla bla',
-      price: 122,
-      stock: 23,
-      image: '',
+      description: 'lorem lorem',
+      price: 10000,
+      stock: 300,
+      image: 'https://i.imgur.com/U4iGx1j.jpeg',
     },
   ];
 
   findAll() {
     return this.products;
   }
+
   findOne(id: number) {
     const product = this.products.find((item) => item.id === id);
     if (!product) {
@@ -27,34 +28,33 @@ export class ProductsService {
     }
     return product;
   }
-  create(payload: CreateProductDto) {
-    console.log(payload);
+
+  create(data: CreateProductDto) {
     this.counterId = this.counterId + 1;
     const newProduct = {
       id: this.counterId,
-      ...payload,
+      ...data,
     };
     this.products.push(newProduct);
     return newProduct;
   }
-  update(id: number, payload: UpdateProductDto) {
+
+  update(id: number, changes: UpdateProductDto) {
     const product = this.findOne(id);
-    if (product) {
-      const index = this.products.findIndex((item) => item.id === id);
-      this.products[index] = {
-        ...product,
-        ...payload,
-      };
-      return this.products[index];
-    }
-    return null;
+    const index = this.products.findIndex((item) => item.id === id);
+    this.products[index] = {
+      ...product,
+      ...changes,
+    };
+    return this.products[index];
   }
-  delete(id: number) {
-    const productArray = this.products.findIndex((item) => item.id === id);
-    if (productArray === -1) {
+
+  remove(id: number) {
+    const index = this.products.findIndex((item) => item.id === id);
+    if (index === -1) {
       throw new NotFoundException(`Product #${id} not found`);
     }
-    this.products.splice(productArray, 1);
+    this.products.splice(index, 1);
     return true;
   }
 }

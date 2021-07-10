@@ -1,9 +1,9 @@
 import {
   Controller,
   Get,
-  Post,
   Query,
   Param,
+  Post,
   Body,
   Put,
   Delete,
@@ -15,11 +15,13 @@ import {
 
 import { Response } from 'express';
 import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { ProductsService } from '../services/products.service';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+
+import { ProductsService } from './../services/products.service';
+
 @Controller('products')
 export class ProductsController {
-  constructor(private productsServices: ProductsService) {}
+  constructor(private productsService: ProductsService) {}
 
   @Get()
   getProducts(
@@ -27,27 +29,42 @@ export class ProductsController {
     @Query('offset') offset = 0,
     @Query('brand') brand: string,
   ) {
-    return this.productsServices.findAll();
+    // return {
+    //   message: `products limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
+    // };
+    return this.productsService.findAll();
   }
+
+  @Get('filter')
+  getProductFilter() {
+    return `yo soy un filter`;
+  }
+
   @Get(':productId')
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('productId', ParseIntPipe) productId: number) {
     // response.status(200).send({
-    //   message: `product ${params.productId} `,
+    //   message: `product ${productId}`,
     // });
-    return this.productsServices.findOne(+productId);
+    return this.productsService.findOne(productId);
   }
+
   @Post()
   create(@Body() payload: CreateProductDto) {
-    return this.productsServices.create(payload);
+    // return {
+    //   message: 'accion de crear',
+    //   payload,
+    // };
+    return this.productsService.create(payload);
   }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
-    console.log('id', id);
-    return this.productsServices.update(+id, payload);
+    return this.productsService.update(+id, payload);
   }
+
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.productsServices.delete(+id);
+    return this.productsService.remove(+id);
   }
 }
